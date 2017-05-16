@@ -1,0 +1,11 @@
+security:
+  oauth2:
+    client:
+      clientId: lake-service
+      clientSecret: test
+      accessTokenUri: http://localhost:5000/uaa/oauth/token
+      grant-type: client_credentials
+      scope: server
+server:
+  context-path: /lakes
+  port: 8000

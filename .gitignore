@@ -1,0 +1,8 @@
+target/
+.settings/
+tmp/
+.classpath
+.project
+.idea/
+*.iml
+guide.txt
