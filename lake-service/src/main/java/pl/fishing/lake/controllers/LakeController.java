@@ -6,9 +6,4 @@ import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 public class LakeController {
-
-    @RequestMapping(path = "/current", method = RequestMethod.GET)
-    public void getCurrentAccount() {
-        System.out.println("CURRENT");
-    }
 }

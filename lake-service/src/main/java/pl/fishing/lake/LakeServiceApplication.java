@@ -48,7 +48,6 @@ public class LakeServiceApplication extends ResourceServerConfigurerAdapter {
 	@Override
 	public void configure(HttpSecurity http) throws Exception {
 		http.authorizeRequests()
-				.antMatchers("/", "/current").permitAll()
 				.anyRequest().authenticated();
 	}
 

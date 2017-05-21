@@ -1,17 +1,23 @@
-package pl.fishing.auth.service.security.dto;
+package pl.fishing.auth.dto;
 
 
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
+import pl.fishing.auth.model.User;
 
 import java.util.Collection;
 
-public class UserDto implements UserDetails {
+public class AuthUser implements UserDetails {
 
     private String username;
 
     private String password;
 
+
+    public AuthUser(User user){
+        this.username = user.getUsername();
+        this.password = user.getPassword();
+    }
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
         return null;
@@ -29,21 +35,21 @@ public class UserDto implements UserDetails {
 
     @Override
     public boolean isAccountNonExpired() {
-        return false;
+        return true;
     }
 
     @Override
     public boolean isAccountNonLocked() {
-        return false;
+        return true;
     }
 
     @Override
     public boolean isCredentialsNonExpired() {
-        return false;
+        return true;
     }
 
     @Override
     public boolean isEnabled() {
-        return false;
+        return true;
     }
 }

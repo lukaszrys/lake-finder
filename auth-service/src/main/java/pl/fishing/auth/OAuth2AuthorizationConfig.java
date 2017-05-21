@@ -31,8 +31,9 @@ public class OAuth2AuthorizationConfig extends AuthorizationServerConfigurerAdap
     public void configure(ClientDetailsServiceConfigurer clients) throws Exception {
         // @formatter:off
         clients.inMemory()
-                .withClient("browser")
+                .withClient("mobile")
                 .authorizedGrantTypes("refresh_token", "password")
+                .secret("test")
                 .scopes("ui")
                 .and()
                 .withClient("lake-service")
