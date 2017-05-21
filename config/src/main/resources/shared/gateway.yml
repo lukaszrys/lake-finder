@@ -19,6 +19,7 @@ zuul:
   routes:
     auth-service:
           path: /uaa/**
+          serviceId: auth-service
           url: http://localhost:5000
           stripPrefix: false
           sensitiveHeaders:
