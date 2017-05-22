@@ -9,3 +9,17 @@ security:
 server:
   context-path: /lakes
   port: 8000
+spring:
+  data:
+    mongodb:
+      host: localhost
+      username: user
+      password: test
+      database: lake-service
+      port: 27017
+google:
+  maps:
+    key: ${KEY}
+    uri: https://maps.googleapis.com/maps/api/place/nearbysearch/json
+  static:
+    uri: http://maps.googleapis.com/maps/api/staticmap
