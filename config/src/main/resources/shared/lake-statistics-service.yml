@@ -1,0 +1,19 @@
+security:
+  oauth2:
+    client:
+      clientId: lake-statistics-service
+      clientSecret: test
+      accessTokenUri: http://localhost:5000/uaa/oauth/token
+      grant-type: client_credentials
+      scope: server
+server:
+  context-path: /statistics
+  port: 8100
+spring:
+  data:
+    mongodb:
+      host: localhost
+      username: user
+      password: test
+      database: lake-statistics-service
+      port: 27017

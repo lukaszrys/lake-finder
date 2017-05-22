@@ -1,0 +1,11 @@
+spring:
+  data:
+    mongodb:
+      database: lake-service
+      port: 0
+google:
+  maps:
+    key: AIzaSyDMuObh57O9zZ1-iFSjRDgCQnLGjjHh7_k
+    uri: https://maps.googleapis.com/maps/api/place/nearbysearch/json
+  static:
+    uri: http://maps.googleapis.com/maps/api/staticmap

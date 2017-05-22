@@ -12,9 +12,11 @@
 		<module>registry</module>
 		<module>user-service</module>
 		<module>lake-service</module>
+		<module>lake-statistics-service</module>
 		<module>auth-service</module>
 		<module>gateway</module>
 		<module>monitoring</module>
 		<module>commons</module>
 	</modules>
+	
 </project>
