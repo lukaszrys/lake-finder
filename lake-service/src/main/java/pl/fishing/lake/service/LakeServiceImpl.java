@@ -43,25 +43,27 @@ public class LakeServiceImpl implements LakeService {
     public Lake getLakeNearMe(UserGeoLocationDto userGeoLocation) {
         double radius = 1000; // TODO: get from user
         Lake lake = getLakeFromDB(userGeoLocation, 1); // TODO: count radius from user for circle
-        return lake == null ? getLakeFromGoogleMaps(userGeoLocation, radius) : lake;
+        if (lake == null){
+            return saveLake(getLakeFromGoogleMaps(userGeoLocation, radius));
+        }
+        return lake;
     }
 
-    private Lake getLakeFromGoogleMaps(UserGeoLocationDto userGeoLocation,double radius) {
+    private GoogleApiLake getLakeFromGoogleMaps(UserGeoLocationDto userGeoLocation,double radius) {
         HttpEntity<GoogleMapsResponse> response = getResponseFromGoogleMaps(userGeoLocation, radius);
 
         GoogleMapsResponse mapsBody = response.getBody();
         if (mapsBody != null && mapsBody.getResults() != null && mapsBody.getResults().size() > 0){
             GoogleApiLake googleApiLake = null;
             try {
-                googleApiLake = getFirstValidLake(mapsBody.getResults().iterator());
+                return getFirstValidLake(mapsBody.getResults().iterator());
             } catch (IOException | InterruptedException e) {
                 return null; //TODO: handle exception
             }
             if (googleApiLake == null || lakeRepository.findOne(googleApiLake.getId()) != null){
                 return null; // TODO: handle
             }
-            Lake lake = saveLake(googleApiLake);
-            return lake;
+
         }
         return null; // TODO: handle
     }
@@ -80,6 +82,9 @@ public class LakeServiceImpl implements LakeService {
     }
 
     private Lake saveLake(GoogleApiLake googleApiLake) {
+        if (googleApiLake == null){
+            return null; //TODO:
+        }
         Lake lake = new Lake();
         double[] position = new double[2];
         position[0] = googleApiLake.getGeometry().getLocation().getLat().doubleValue();
