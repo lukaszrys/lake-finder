@@ -1,7 +1,10 @@
 package pl.fishing.lake;
 
+import feign.RequestInterceptor;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.boot.autoconfigure.security.oauth2.resource.ResourceServerProperties;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.cloud.client.discovery.EnableDiscoveryClient;
@@ -17,8 +20,8 @@ import org.springframework.security.oauth2.client.token.grant.client.ClientCrede
 import org.springframework.security.oauth2.config.annotation.web.configuration.EnableOAuth2Client;
 import org.springframework.security.oauth2.config.annotation.web.configuration.EnableResourceServer;
 import org.springframework.security.oauth2.config.annotation.web.configuration.ResourceServerConfigurerAdapter;
-
-import feign.RequestInterceptor;
+import org.springframework.security.oauth2.provider.token.ResourceServerTokenServices;
+import pl.fishing.commons.security.CloudUserInfoTokenService;
 
 @SpringBootApplication
 @EnableResourceServer
@@ -34,6 +37,10 @@ public class LakeServiceApplication extends ResourceServerConfigurerAdapter {
 		SpringApplication.run(LakeServiceApplication.class, args);
 	}
 
+
+	@Autowired
+	private ResourceServerProperties sso;
+
 	@Bean
 	@ConfigurationProperties(prefix = "security.oauth2.client")
 	public ClientCredentialsResourceDetails clientCredentialsResourceDetails() {
@@ -43,6 +50,11 @@ public class LakeServiceApplication extends ResourceServerConfigurerAdapter {
 	@Bean
 	public OAuth2RestTemplate clientCredentialsRestTemplate() {
 		return new OAuth2RestTemplate(clientCredentialsResourceDetails());
+	}
+
+	@Bean
+	public ResourceServerTokenServices tokenServices() {
+		return new CloudUserInfoTokenService(sso.getUserInfoUri(), sso.getClientId());
 	}
 
 	@Override

@@ -21,7 +21,7 @@ import org.springframework.security.oauth2.config.annotation.web.configuration.E
 import org.springframework.security.oauth2.config.annotation.web.configuration.EnableResourceServer;
 import org.springframework.security.oauth2.config.annotation.web.configuration.ResourceServerConfigurerAdapter;
 import org.springframework.security.oauth2.provider.token.ResourceServerTokenServices;
-import pl.fishing.user.security.CloudUserInfoTokenService;
+import pl.fishing.commons.security.CloudUserInfoTokenService;
 
 @SpringBootApplication
 @EnableResourceServer

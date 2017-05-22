@@ -1,8 +1,6 @@
-package pl.fishing.user.security;
+package pl.fishing.commons.security;
 
 
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
 import org.springframework.boot.autoconfigure.security.oauth2.resource.AuthoritiesExtractor;
 import org.springframework.boot.autoconfigure.security.oauth2.resource.FixedAuthoritiesExtractor;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -21,8 +19,6 @@ import org.springframework.security.oauth2.provider.token.ResourceServerTokenSer
 import java.util.*;
 
 public class CloudUserInfoTokenService implements ResourceServerTokenServices {
-    protected final Log logger = LogFactory.getLog(getClass());
-
     private static final String[] PRINCIPAL_KEYS = new String[] { "user", "username",
             "userid", "user_id", "login", "id", "name" };
 
@@ -58,7 +54,6 @@ public class CloudUserInfoTokenService implements ResourceServerTokenServices {
             throws AuthenticationException, InvalidTokenException {
         Map<String, Object> map = getMap(this.userInfoEndpointUrl, accessToken);
         if (map.containsKey("error")) {
-            this.logger.debug("userinfo returned error: " + map.get("error"));
             throw new InvalidTokenException(accessToken);
         }
         return extractAuthentication(map);
@@ -103,7 +98,6 @@ public class CloudUserInfoTokenService implements ResourceServerTokenServices {
 
     @SuppressWarnings({ "unchecked" })
     private Map<String, Object> getMap(String path, String accessToken) {
-        this.logger.debug("Getting user info from: " + path);
         try {
             OAuth2RestOperations restTemplate = this.restTemplate;
             if (restTemplate == null) {
@@ -122,8 +116,6 @@ public class CloudUserInfoTokenService implements ResourceServerTokenServices {
             return restTemplate.getForEntity(path, Map.class).getBody();
         }
         catch (Exception ex) {
-            this.logger.info("Could not fetch user details: " + ex.getClass() + ", "
-                    + ex.getMessage());
             return Collections.<String, Object>singletonMap("error",
                     "Could not fetch user details");
         }

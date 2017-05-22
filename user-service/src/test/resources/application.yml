@@ -1,7 +1,7 @@
 spring:
   datasource:
     driver-class-name: org.postgresql.Driver
-    url: jdbc:postgresql://localhost/fishing-auth-test
+    url: jdbc:postgresql://localhost/fishing-user-test
     username: postgres
     password: postgres
   jpa:
