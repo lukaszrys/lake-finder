@@ -20,12 +20,13 @@ public class UserServiceImpl implements UserService{
     @Override
     @Transactional
     public void registerUser(UserDto userDto) {
-        
-        User user = userRepository.findOne(userDto.getId());
+        User user = userRepository.findOne(userDto.getUsername());
         if (user != null){
 
         }
-        String encodedPassword = bCryptPasswordEncoder.encode(user.getPassword());
+        user = new User();
+        String encodedPassword = bCryptPasswordEncoder.encode(userDto.getPassword());
+        user.setUsername(userDto.getUsername());
         user.setPassword(encodedPassword);
         userRepository.save(user);
     }

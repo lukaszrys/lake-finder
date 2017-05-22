@@ -1,11 +1,9 @@
 package pl.fishing.auth.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.security.access.prepost.PreAuthorize;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import pl.fishing.auth.dto.UserDto;
 import pl.fishing.auth.service.UserService;
 
@@ -25,6 +23,7 @@ public class UserController {
 
     @PreAuthorize("#oauth2.hasScope('server')")
     @RequestMapping(value = "/user", method = RequestMethod.POST)
+    @ResponseStatus(HttpStatus.CREATED)
     public void registerUser(@RequestBody UserDto user){
         userService.registerUser(user);
     }
