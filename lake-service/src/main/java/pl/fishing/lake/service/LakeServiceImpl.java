@@ -44,7 +44,11 @@ public class LakeServiceImpl implements LakeService {
         double radius = 1000; // TODO: get from user
         Lake lake = getLakeFromDB(userGeoLocation, 1); // TODO: count radius from user for circle
         if (lake == null){
-            return saveLake(getLakeFromGoogleMaps(userGeoLocation, radius));
+            GoogleApiLake googleApiLake = getLakeFromGoogleMaps(userGeoLocation, radius);
+            if (lakeRepository.findOne(googleApiLake.getId()) != null) {
+                return null;
+            }
+            return saveLake(googleApiLake);
         }
         return lake;
     }
@@ -59,9 +63,6 @@ public class LakeServiceImpl implements LakeService {
                 return getFirstValidLake(mapsBody.getResults().iterator());
             } catch (IOException | InterruptedException e) {
                 return null; //TODO: handle exception
-            }
-            if (googleApiLake == null || lakeRepository.findOne(googleApiLake.getId()) != null){
-                return null; // TODO: handle
             }
 
         }
