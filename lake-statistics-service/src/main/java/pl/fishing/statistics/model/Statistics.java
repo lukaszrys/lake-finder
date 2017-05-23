@@ -8,13 +8,14 @@ import java.util.Date;
 import java.util.List;
 
 @Document
-public class LakeStatistics {
+public class Statistics {
 
     @Id
     private String id;
+
     private Date created;
 
-    private List<Stats> fishesInLake = new ArrayList<>();
+    private List<LakeStats> lakeStats = new ArrayList<>();
 
     public String getId() {
         return id;
@@ -32,11 +33,11 @@ public class LakeStatistics {
         this.created = created;
     }
 
-    public List<Stats> getFishesInLake() {
-        return fishesInLake;
+    public List<LakeStats> getLakeStats() {
+        return lakeStats;
     }
 
-    public void setFishesInLake(List<Stats> fishesInLake) {
-        this.fishesInLake = fishesInLake;
+    public void setLakeStats(List<LakeStats> lakeStats) {
+        this.lakeStats = lakeStats;
     }
 }

@@ -1,16 +1,16 @@
 package pl.fishing.statistics.model;
 
-public class Stats {
+public class FishTypeValue {
 
-    private String label;
+    private String type;
     private Integer value;
 
-    public String getLabel() {
-        return label;
+    public String getType() {
+        return type;
     }
 
-    public void setLabel(String label) {
-        this.label = label;
+    public void setType(String type) {
+        this.type = type;
     }
 
     public Integer getValue() {

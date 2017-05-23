@@ -17,3 +17,7 @@ spring:
       password: test
       database: lake-statistics-service
       port: 27017
+statistics:
+  job:
+    saveLakeStatistics:
+      cron: 0 0 2 1/1 * ?
