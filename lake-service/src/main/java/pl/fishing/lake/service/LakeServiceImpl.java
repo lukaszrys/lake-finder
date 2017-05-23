@@ -10,9 +10,11 @@ import org.springframework.http.MediaType;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 import org.springframework.web.util.UriComponentsBuilder;
-import pl.fishing.lake.dto.GoogleApiLake;
-import pl.fishing.lake.dto.GoogleMapsResponse;
+import pl.fishing.lake.google.response.GoogleApiLake;
+import pl.fishing.lake.google.response.GoogleMapsResponse;
+import pl.fishing.lake.dto.UserDto;
 import pl.fishing.lake.dto.UserGeoLocationDto;
+import pl.fishing.lake.feign.UserServiceFeign;
 import pl.fishing.lake.model.Lake;
 import pl.fishing.lake.repository.LakeRepository;
 
@@ -21,6 +23,7 @@ import java.awt.*;
 import java.awt.image.PixelGrabber;
 import java.io.IOException;
 import java.net.URL;
+import java.security.Principal;
 import java.util.Iterator;
 import java.util.List;
 
@@ -39,9 +42,17 @@ public class LakeServiceImpl implements LakeService {
     @Autowired
     private LakeRepository lakeRepository;
 
+    @Autowired
+    private UserServiceFeign userService;
+
     @Override
-    public Lake getLakeNearMe(UserGeoLocationDto userGeoLocation) {
-        double radius = 1000; // TODO: get from user
+    public Lake getLakeNearMe(UserGeoLocationDto userGeoLocation, Principal principal) {
+        UserDto currentUser = userService.getByUsername(principal.getName());
+        return getLakeNearMe(userGeoLocation, currentUser.getRadius().doubleValue());
+    }
+
+    @Override
+    public Lake getLakeNearMe(UserGeoLocationDto userGeoLocation, double radius) {
         Lake lake = getLakeFromDB(userGeoLocation, 1); // TODO: count radius from user for circle
         if (lake == null){
             GoogleApiLake googleApiLake = getLakeFromGoogleMaps(userGeoLocation, radius);

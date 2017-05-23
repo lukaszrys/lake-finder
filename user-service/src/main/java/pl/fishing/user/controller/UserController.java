@@ -4,7 +4,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
-import pl.fishing.user.dto.UserDto;
+import pl.fishing.user.dto.UserAuthDto;
 import pl.fishing.user.model.User;
 import pl.fishing.user.repository.UserRepository;
 import pl.fishing.user.service.UserService;
@@ -28,7 +28,7 @@ public class UserController {
 
     @RequestMapping(path="/register", method = RequestMethod.POST)
     @ResponseStatus(HttpStatus.CREATED)
-    public void registerUser(@RequestBody UserDto user){
+    public void registerUser(@RequestBody UserAuthDto user){
         userService.registerUser(user);
     }
 

@@ -12,6 +12,9 @@ import org.springframework.cloud.netflix.feign.EnableFeignClients;
 import org.springframework.cloud.security.oauth2.client.feign.OAuth2FeignRequestInterceptor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.context.event.ApplicationEventMulticaster;
+import org.springframework.context.event.SimpleApplicationEventMulticaster;
+import org.springframework.core.task.SimpleAsyncTaskExecutor;
 import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.oauth2.client.DefaultOAuth2ClientContext;
@@ -66,5 +69,12 @@ public class LakeStatisticsServiceApplication extends ResourceServerConfigurerAd
 	@Bean
 	public RequestInterceptor oauth2FeignRequestInterceptor() {
 		return new OAuth2FeignRequestInterceptor(new DefaultOAuth2ClientContext(), clientCredentialsResourceDetails());
+	}
+
+	@Bean
+	public ApplicationEventMulticaster simpleApplicationEventMulticaster() {
+		SimpleApplicationEventMulticaster eventMulticaster = new SimpleApplicationEventMulticaster();
+		eventMulticaster.setTaskExecutor(new SimpleAsyncTaskExecutor());
+		return eventMulticaster;
 	}
 }

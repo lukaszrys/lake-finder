@@ -6,14 +6,12 @@ import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 import pl.fishing.lake.dto.UserGeoLocationDto;
 import pl.fishing.lake.model.Lake;
-import pl.fishing.lake.repository.LakeRepository;
 import pl.fishing.lake.service.LakeService;
+
+import java.security.Principal;
 
 @RestController
 public class LakeController {
-
-    @Autowired
-    private LakeRepository lakeRepository;
 
     @Autowired
     private LakeService lakeService;
@@ -22,7 +20,7 @@ public class LakeController {
     @RequestMapping(method = RequestMethod.POST)
     @ResponseStatus(HttpStatus.OK)
     //TODO: return LakeDTO
-    public Lake getLakeNearMe(@RequestBody UserGeoLocationDto userGeoLocation){
-        return lakeService.getLakeNearMe(userGeoLocation);
+    public Lake getLakeNearMe(@RequestBody UserGeoLocationDto userGeoLocation, Principal principal){
+        return lakeService.getLakeNearMe(userGeoLocation, principal);
     }
 }

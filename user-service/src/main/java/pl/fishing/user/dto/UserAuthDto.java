@@ -1,6 +1,6 @@
 package pl.fishing.user.dto;
 
-public class UserDto {
+public class UserAuthDto {
     private String username;
     private String password;
 

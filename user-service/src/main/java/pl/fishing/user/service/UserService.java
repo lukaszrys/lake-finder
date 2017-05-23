@@ -1,7 +1,7 @@
 package pl.fishing.user.service;
 
-import pl.fishing.user.dto.UserDto;
+import pl.fishing.user.dto.UserAuthDto;
 
 public interface UserService {
-    void registerUser(UserDto userDto);
+    void registerUser(UserAuthDto userDto);
 }

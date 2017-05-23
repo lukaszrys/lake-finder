@@ -2,9 +2,9 @@ package pl.fishing.user.service;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import pl.fishing.user.dto.UserDto;
+import pl.fishing.user.dto.UserAuthDto;
 import pl.fishing.user.exception.UsernameNotUniqueException;
-import pl.fishing.user.exception.ValidationException;
+import pl.fishing.commons.exception.ValidationException;
 import pl.fishing.user.feign.AuthServiceFeign;
 import pl.fishing.user.model.User;
 import pl.fishing.user.repository.UserRepository;
@@ -22,9 +22,9 @@ public class UserServiceImpl implements UserService{
 
     @Override
     @Transactional
-    public void registerUser(UserDto userDto) {
+    public void registerUser(UserAuthDto userDto) {
         if (userDto == null){
-            throw new ValidationException("UserDto cannot be empty");
+            throw new ValidationException("UserAuthDto cannot be empty");
         }
         if (userRepository.findOne(userDto.getUsername()) != null){
             throw new UsernameNotUniqueException("Username already exists");

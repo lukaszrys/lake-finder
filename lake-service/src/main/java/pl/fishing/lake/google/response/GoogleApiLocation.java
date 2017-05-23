@@ -1,4 +1,4 @@
-package pl.fishing.lake.dto;
+package pl.fishing.lake.google.response;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 

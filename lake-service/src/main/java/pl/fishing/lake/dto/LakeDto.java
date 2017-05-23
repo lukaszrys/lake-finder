@@ -1,16 +1,9 @@
-package pl.fishing.lake.model;
+package pl.fishing.lake.dto;
 
-import org.springframework.data.annotation.Id;
-import org.springframework.data.mongodb.core.mapping.Document;
+public class LakeDto {
 
-@Document
-public class Lake {
-
-    @Id
     private String id;
-
     private String name;
-
     private double[] position;
 
     public String getId() {

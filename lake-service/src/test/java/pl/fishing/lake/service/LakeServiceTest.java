@@ -13,11 +13,11 @@ import pl.fishing.lake.model.Lake;
 
 import java.math.BigDecimal;
 
+
 @RunWith(SpringJUnit4ClassRunner.class)
 @SpringApplicationConfiguration(classes = LakeServiceApplication.class)
 @ComponentScan(basePackages = {"pl.fishing.lake.service.*"})
 public class LakeServiceTest {
-
 
     @Autowired
     private LakeService lakeService;
@@ -27,7 +27,7 @@ public class LakeServiceTest {
         UserGeoLocationDto dto = new UserGeoLocationDto();
         dto.setHeight(new BigDecimal("19.899566"));
         dto.setWidth(new BigDecimal("50.051691"));
-        Assert.assertNull(lakeService.getLakeNearMe(dto));
+        Assert.assertNull(lakeService.getLakeNearMe(dto, 1000));
     }
 
     @Test
@@ -35,7 +35,7 @@ public class LakeServiceTest {
         UserGeoLocationDto dto = new UserGeoLocationDto();
         dto.setHeight(new BigDecimal("20.871212"));
         dto.setWidth(new BigDecimal("53.948004"));
-        Lake lake = lakeService.getLakeNearMe(dto);
+        Lake lake = lakeService.getLakeNearMe(dto, 1000);
         Assert.assertEquals(lake.getName(), "Jezioro Tejstymy");
     }
 }
