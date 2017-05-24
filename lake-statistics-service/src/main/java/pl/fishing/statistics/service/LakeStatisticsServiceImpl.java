@@ -5,6 +5,7 @@ import org.apache.commons.logging.LogFactory;
 import org.joda.time.DateTime;
 import org.joda.time.Days;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.ApplicationContext;
 import org.springframework.data.mongodb.core.MongoTemplate;
 import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Service;
@@ -25,6 +26,9 @@ public class LakeStatisticsServiceImpl implements LakeStatisticsService {
     @Autowired
     private MongoTemplate mongoTemplate;
 
+    @Autowired
+    private ApplicationContext context;
+
     @Override
     public void saveLakeStatistics() {
         Statistics statistics = statisticsRepository.findTopByOrderByCreatedDesc();
@@ -32,7 +36,7 @@ public class LakeStatisticsServiceImpl implements LakeStatisticsService {
             createNewStatistics(new Date(), -1);
         } else {
             Date created = statistics.getCreated();
-            int missingStatistics = /*countMissingStatistics(created)*/ 2;
+            int missingStatistics = countMissingStatistics(created);
             for (int i = 0; i < missingStatistics; i++){
                 createNewStatistics(created, i);
             }
