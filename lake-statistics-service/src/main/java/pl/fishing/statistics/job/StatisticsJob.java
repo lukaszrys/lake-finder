@@ -20,4 +20,10 @@ public class StatisticsJob {
         logger.info("Starting saveLakeStatistics");
         lakeStatisticsService.saveLakeStatistics();
     }
+
+    @Scheduled(fixedDelayString = "${statistics.job.saveLakeStatistics.mili}")
+    public void saveQLakeStatistics() {
+        logger.info("Starting saveLakeStatistics");
+        lakeStatisticsService.saveLakeStatistics();
+    }
 }

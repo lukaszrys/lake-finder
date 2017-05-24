@@ -38,5 +38,12 @@ public class UserController {
         return userRepository.findOne(principal.getName());
     }
 
+    @PreAuthorize("#oauth2.hasScope('ui')")
+    @RequestMapping(path="/{userId}", method = RequestMethod.GET)
+    @ResponseStatus(HttpStatus.OK)
+    public void addFriend(@PathVariable String userId, Principal principal){
+
+        userService.addFriend(principal, userId);
+    }
 
 }

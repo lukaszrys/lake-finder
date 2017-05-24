@@ -1,21 +1,29 @@
 package pl.fishing.statistics.service;
 
-import org.apache.commons.lang.time.DateUtils;
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 import org.joda.time.DateTime;
-import org.joda.time.Duration;
+import org.joda.time.Days;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.mongodb.core.MongoTemplate;
+import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Service;
 import pl.fishing.statistics.model.Statistics;
 import pl.fishing.statistics.repository.StatisticsRepository;
+import pl.fishing.statistics.thread.LakeStatisticsTask;
 
-import java.util.Calendar;
 import java.util.Date;
 
 @Service
-public class LakeStatisticsServiceImpl implements LakeStatisticsService{
+public class LakeStatisticsServiceImpl implements LakeStatisticsService {
+
+    private final Log logger = LogFactory.getLog(getClass());
 
     @Autowired
     private StatisticsRepository statisticsRepository;
+
+    @Autowired
+    private MongoTemplate mongoTemplate;
 
     @Override
     public void saveLakeStatistics() {
@@ -24,24 +32,21 @@ public class LakeStatisticsServiceImpl implements LakeStatisticsService{
             createNewStatistics(new Date(), -1);
         } else {
             Date created = statistics.getCreated();
-            int missingStatistics = countMissingStatistics(created);
+            int missingStatistics = /*countMissingStatistics(created)*/ 2;
             for (int i = 0; i < missingStatistics; i++){
-                //TODO: async?
                 createNewStatistics(created, i);
             }
         }
     }
 
-    private void createNewStatistics(Date created, int i) {
-        Statistics newStatistics = new Statistics();
-        Date newCreatedDate = new DateTime(created).plusDays(i + 1).toDate();
-        newStatistics.setCreated(newCreatedDate);
-        // TODO: db.fish.aggregate({$group: {_id: {lake : "$lake"}, count: {$sum: 1}}}) + match: fish per lake
-        statisticsRepository.save(newStatistics);
+    @Async
+    public void createNewStatistics(Date created, int i) {
+        LakeStatisticsTask lakeStatisticsTask = new LakeStatisticsTask(created, i, statisticsRepository, mongoTemplate);
+        logger.info("Finished creating statistics for date: " + lakeStatisticsTask.call().toString());
     }
 
     private int countMissingStatistics(Date created) {
-        Duration duration = new Duration(new DateTime(DateUtils.truncate(created, Calendar.DAY_OF_YEAR)), new DateTime(DateUtils.truncate(new Date(), Calendar.DAY_OF_YEAR)));
-        return (int) duration.getStandardDays();
+        Date today = new Date();
+        return Days.daysBetween(new DateTime(created), new DateTime(today)).getDays();
     }
 }

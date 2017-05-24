@@ -15,6 +15,8 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.context.event.ApplicationEventMulticaster;
 import org.springframework.context.event.SimpleApplicationEventMulticaster;
 import org.springframework.core.task.SimpleAsyncTaskExecutor;
+import org.springframework.core.task.TaskExecutor;
+import org.springframework.scheduling.concurrent.ThreadPoolTaskExecutor;
 import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.oauth2.client.DefaultOAuth2ClientContext;
@@ -76,5 +78,14 @@ public class LakeStatisticsServiceApplication extends ResourceServerConfigurerAd
 		SimpleApplicationEventMulticaster eventMulticaster = new SimpleApplicationEventMulticaster();
 		eventMulticaster.setTaskExecutor(new SimpleAsyncTaskExecutor());
 		return eventMulticaster;
+	}
+
+	@Bean
+	public TaskExecutor taskExecutor(){
+		ThreadPoolTaskExecutor executor = new ThreadPoolTaskExecutor();
+		executor.setCorePoolSize(2);
+		executor.setMaxPoolSize(6);
+		executor.setQueueCapacity(25);
+		return executor;
 	}
 }

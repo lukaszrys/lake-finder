@@ -3,7 +3,7 @@ package pl.fishing.statistics.model;
 public class FishTypeValue {
 
     private String type;
-    private Integer value;
+    private Long value;
 
     public String getType() {
         return type;
@@ -13,11 +13,11 @@ public class FishTypeValue {
         this.type = type;
     }
 
-    public Integer getValue() {
+    public Long getValue() {
         return value;
     }
 
-    public void setValue(Integer value) {
+    public void setValue(Long value) {
         this.value = value;
     }
 }
