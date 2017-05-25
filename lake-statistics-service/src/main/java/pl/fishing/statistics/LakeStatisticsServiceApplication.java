@@ -86,6 +86,7 @@ public class LakeStatisticsServiceApplication extends ResourceServerConfigurerAd
 		executor.setCorePoolSize(2);
 		executor.setMaxPoolSize(6);
 		executor.setQueueCapacity(25);
+		executor.setWaitForTasksToCompleteOnShutdown(true);
 		return executor;
 	}
 }
