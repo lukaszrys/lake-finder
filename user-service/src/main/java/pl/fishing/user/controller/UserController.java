@@ -20,7 +20,7 @@ public class UserController {
     private UserService userService;
 
     @PreAuthorize("#oauth2.hasScope('server')")
-    @RequestMapping(path="/{name}", method = RequestMethod.GET)
+    @RequestMapping(path="/find/{name}", method = RequestMethod.GET)
     @ResponseStatus(HttpStatus.OK)
     public User getByUsername(@PathVariable String name){
         return userRepository.findOne(name);

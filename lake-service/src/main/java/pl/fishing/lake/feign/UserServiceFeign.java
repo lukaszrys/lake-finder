@@ -11,7 +11,7 @@ import pl.fishing.lake.dto.UserDto;
 
 @FeignClient(name = "user-service")
 public interface UserServiceFeign {
-    @RequestMapping(method = RequestMethod.GET, value = "/users/{name}", consumes = MediaType.APPLICATION_JSON_UTF8_VALUE)
+    @RequestMapping(method = RequestMethod.GET, value = "/users/find/{name}", consumes = MediaType.APPLICATION_JSON_UTF8_VALUE)
     @ResponseStatus(HttpStatus.OK)
     UserDto getByUsername(@PathVariable("name") String name);
 }

@@ -25,16 +25,16 @@ public class LakeServiceTest {
     @Test
     public void findLakeWithoutLakesTest() throws Exception {
         UserGeoLocationDto dto = new UserGeoLocationDto();
-        dto.setHeight(new BigDecimal("19.899566"));
-        dto.setWidth(new BigDecimal("50.051691"));
+        dto.setLongitude(new BigDecimal("19.899566"));
+        dto.setLatitude(new BigDecimal("50.051691"));
         Assert.assertNull(lakeService.getLakeNearMe(dto, 1000));
     }
 
     @Test
     public void findLakeTest() throws Exception {
         UserGeoLocationDto dto = new UserGeoLocationDto();
-        dto.setHeight(new BigDecimal("20.871212"));
-        dto.setWidth(new BigDecimal("53.948004"));
+        dto.setLongitude(new BigDecimal("20.871212"));
+        dto.setLatitude(new BigDecimal("53.948004"));
         Lake lake = lakeService.getLakeNearMe(dto, 1000);
         Assert.assertEquals(lake.getName(), "Jezioro Tejstymy");
     }

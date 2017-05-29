@@ -5,24 +5,24 @@ import java.math.BigDecimal;
 
 public class UserGeoLocationDto {
 
-    private BigDecimal width;
-    private BigDecimal height;
+    private BigDecimal latitude;
+    private BigDecimal longitude;
 
     @NotNull
-    public BigDecimal getWidth() {
-        return width;
+    public BigDecimal getLatitude() {
+        return latitude;
     }
 
-    public void setWidth(BigDecimal width) {
-        this.width = width;
+    public void setLatitude(BigDecimal latitude) {
+        this.latitude = latitude;
     }
 
     @NotNull
-    public BigDecimal getHeight() {
-        return height;
+    public BigDecimal getLongitude() {
+        return longitude;
     }
 
-    public void setHeight(BigDecimal height) {
-        this.height = height;
+    public void setLongitude(BigDecimal longitude) {
+        this.longitude = longitude;
     }
 }

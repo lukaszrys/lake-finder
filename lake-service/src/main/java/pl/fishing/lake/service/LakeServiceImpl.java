@@ -84,7 +84,7 @@ public class LakeServiceImpl implements LakeService {
         HttpHeaders headers = new HttpHeaders();
         headers.set("Accept", MediaType.APPLICATION_JSON_VALUE);
         UriComponentsBuilder builder = UriComponentsBuilder.fromUriString(googleMapsUri);
-        builder.queryParam("location", userGeoLocation.getWidth() + "," + userGeoLocation.getHeight());
+        builder.queryParam("location", userGeoLocation.getLatitude() + "," + userGeoLocation.getLongitude());
         builder.queryParam("radius", radius);
         builder.queryParam("type","natural_feature");
         builder.queryParam("key", googleMapsApi);
@@ -140,7 +140,7 @@ public class LakeServiceImpl implements LakeService {
     }
 
     private Lake getLakeFromDB(UserGeoLocationDto userGeoLocation, double radius) {
-        List<Lake> lakes = lakeRepository.findByPositionWithin(new Circle(userGeoLocation.getWidth().doubleValue(), userGeoLocation.getHeight().doubleValue(), radius));
+        List<Lake> lakes = lakeRepository.findByPositionWithin(new Circle(userGeoLocation.getLatitude().doubleValue(), userGeoLocation.getLongitude().doubleValue(), radius));
         if (lakes.size() > 0){
             return lakes.get(0);
         }
