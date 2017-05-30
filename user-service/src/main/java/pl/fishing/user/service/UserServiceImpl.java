@@ -33,6 +33,8 @@ public class UserServiceImpl implements UserService{
         }
         User user = new User();
         user.setUsername(userDto.getUsername());
+        user.setEmail(userDto.getEmail());
+        user.setRadius(userDto.getRadius());
         userRepository.save(user);
         authServiceFeign.registerAccount(userDto);
     }

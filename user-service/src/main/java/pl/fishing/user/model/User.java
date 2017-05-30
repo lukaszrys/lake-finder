@@ -13,6 +13,7 @@ public class User {
 
     private String username;
     private BigDecimal radius;
+    private String email;
     private List<User> friends = new ArrayList<>();
 
     @NotNull
@@ -41,5 +42,14 @@ public class User {
 
     public void setFriends(List<User> friends) {
         this.friends = friends;
+    }
+
+
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
     }
 }

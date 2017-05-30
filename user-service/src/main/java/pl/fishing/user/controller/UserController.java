@@ -26,7 +26,7 @@ public class UserController {
         return userRepository.findOne(name);
     }
 
-    @RequestMapping(path="/register", method = RequestMethod.POST)
+    @RequestMapping(path="/user/register", method = RequestMethod.POST)
     @ResponseStatus(HttpStatus.CREATED)
     public void registerUser(@RequestBody UserAuthDto user){
         userService.registerUser(user);
