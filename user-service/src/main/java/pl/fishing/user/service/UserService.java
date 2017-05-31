@@ -8,4 +8,6 @@ public interface UserService {
     void registerUser(UserAuthDto userDto);
 
     void addFriend(Principal principal, String userId);
+
+    void editUser(String id, UserAuthDto user);
 }

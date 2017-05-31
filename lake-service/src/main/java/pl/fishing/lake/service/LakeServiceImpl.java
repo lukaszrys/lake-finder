@@ -22,6 +22,7 @@ import javax.imageio.ImageIO;
 import java.awt.*;
 import java.awt.image.PixelGrabber;
 import java.io.IOException;
+import java.math.BigDecimal;
 import java.net.URL;
 import java.security.Principal;
 import java.util.Iterator;
@@ -53,7 +54,7 @@ public class LakeServiceImpl implements LakeService {
 
     @Override
     public Lake getLakeNearMe(UserGeoLocationDto userGeoLocation, double radius) {
-        Lake lake = getLakeFromDB(userGeoLocation, 1); // TODO: count radius from user for circle
+        Lake lake = getLakeFromDB(userGeoLocation, converMetersToDegrees());
         if (lake == null){
             GoogleApiLake googleApiLake = getLakeFromGoogleMaps(userGeoLocation, radius);
             if (googleApiLake == null || lakeRepository.findOne(googleApiLake.getId()) != null) {
@@ -64,7 +65,31 @@ public class LakeServiceImpl implements LakeService {
         return lake;
     }
 
+    private int converMetersToDegrees() {
+        return 1;
+    }
+
+    @Override
+    public Lake addLake(Lake lake, Principal principal) {
+        UserGeoLocationDto geoLocationDto = new UserGeoLocationDto();
+        geoLocationDto.setLatitude(BigDecimal.valueOf(lake.getPosition()[0]));
+        geoLocationDto.setLongitude(BigDecimal.valueOf(lake.getPosition()[1]));
+        if (getLakeNearMe(geoLocationDto, 500) != null){
+            return null; //TODO: throw ex
+        }
+        try {
+            if (validateLake(geoLocationDto.getLatitude(), geoLocationDto.getLongitude())){
+                lakeRepository.save(lake);
+                return lake;
+            }
+        }  catch (IOException | InterruptedException e) {
+
+        }
+        return null;
+    }
+
     private GoogleApiLake getLakeFromGoogleMaps(UserGeoLocationDto userGeoLocation,double radius) {
+        radius = radius > 5000 ? 5000 : radius;
         HttpEntity<GoogleMapsResponse> response = getResponseFromGoogleMaps(userGeoLocation, radius);
 
         GoogleMapsResponse mapsBody = response.getBody();
@@ -112,7 +137,17 @@ public class LakeServiceImpl implements LakeService {
             return null;
         }
         GoogleApiLake googleApiLake = results.next();
-        Image img = getImageFromGoogleMaps(googleApiLake);
+        if (validateLake(googleApiLake)) return googleApiLake;
+
+        return getFirstValidLake(results);
+    }
+
+    private boolean validateLake(GoogleApiLake googleApiLake) throws IOException, InterruptedException {
+        return validateLake(googleApiLake.getGeometry().getLocation().getLat(), googleApiLake.getGeometry().getLocation().getLng());
+    }
+
+    private boolean validateLake(BigDecimal lat, BigDecimal lng) throws IOException, InterruptedException {
+        Image img = getImageFromGoogleMaps(lat, lng);
         int w = img.getWidth(null);
         int h = img.getHeight(null);
         int[] pixels = new int[w * h];
@@ -121,16 +156,15 @@ public class LakeServiceImpl implements LakeService {
         for (int pixel: pixels) {
             Color color = new Color(pixel);
             if (color != null && color.getRed() == 163 && color.getGreen() == 203 && color.getBlue() == 255){
-                return googleApiLake;
+                return true;
             }
         }
-
-        return getFirstValidLake(results);
+        return false;
     }
 
-    private Image getImageFromGoogleMaps(GoogleApiLake googleApiLake) throws IOException {
+    private Image getImageFromGoogleMaps(BigDecimal lat, BigDecimal lng) throws IOException {
         UriComponentsBuilder builder = UriComponentsBuilder.fromUriString(googleMapsStatic);
-        builder.queryParam("center", googleApiLake.getGeometry().getLocation().getLat() + "," + googleApiLake.getGeometry().getLocation().getLng());
+        builder.queryParam("center", lat + "," + lng);
         builder.queryParam("zoom", 1000); //TODO: ?
         builder.queryParam("size","1x1");
         builder.queryParam("maptype", "roadmap");

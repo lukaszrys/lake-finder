@@ -39,6 +39,11 @@ public class LakeStatisticsServiceImpl implements LakeStatisticsService {
         }
     }
 
+    @Override
+    public void getStatsForLake(String lakeId, Date from, Date to) {
+
+    }
+
     @Async
     public void createNewStatistics(Date created, int i) {
         LakeStatisticsTask lakeStatisticsTask = new LakeStatisticsTask(created, i, statisticsRepository, mongoTemplate);

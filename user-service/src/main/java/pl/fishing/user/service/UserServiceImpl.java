@@ -11,6 +11,7 @@ import pl.fishing.user.model.User;
 import pl.fishing.user.repository.UserRepository;
 
 import javax.transaction.Transactional;
+import java.math.BigDecimal;
 import java.security.Principal;
 
 @Service
@@ -32,9 +33,7 @@ public class UserServiceImpl implements UserService{
             throw new UsernameNotUniqueException("Username already exists");
         }
         User user = new User();
-        user.setUsername(userDto.getUsername());
-        user.setEmail(userDto.getEmail());
-        user.setRadius(userDto.getRadius());
+        transformFromDto(userDto, user);
         userRepository.save(user);
         authServiceFeign.registerAccount(userDto);
     }
@@ -50,5 +49,25 @@ public class UserServiceImpl implements UserService{
         }
         user.getFriends().add(userToAdd);
         userRepository.save(user);
+    }
+
+    @Override
+    @Transactional
+    public void editUser(String id, UserAuthDto userDto) {
+        User user = userRepository.findOne(id);
+        if (user == null){
+            throw new NotFoundException("Did not find username=" + id);
+        }
+        transformFromDto(userDto, user);
+        userRepository.save(user);
+        authServiceFeign.editAccount(id,userDto);
+    }
+
+    //TODO: UserTransformer
+    private User transformFromDto(UserAuthDto userDto, User user) {
+        user.setUsername(userDto.getUsername());
+        user.setEmail(userDto.getEmail());
+        user.setRadius(userDto.getRadius().multiply(BigDecimal.valueOf(1000L)));
+        return user;
     }
 }

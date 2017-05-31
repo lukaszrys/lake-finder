@@ -1,6 +1,7 @@
 package pl.fishing.lake.service;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import pl.fishing.commons.exception.ValidationException;
 import pl.fishing.lake.dto.FishDto;
@@ -14,6 +15,7 @@ import pl.fishing.lake.transformer.criteria.LakeCriteria;
 
 import java.security.Principal;
 import java.util.Date;
+import java.util.List;
 
 @Service
 public class FishServiceImpl implements FishService {
@@ -39,6 +41,12 @@ public class FishServiceImpl implements FishService {
         fish.setUsername(userService.getByUsername(principal.getName()).getUsername());
         fishRepository.save(fish);
         fishStatisticEventPublisher.publishEvent(fish);
+    }
+
+    @Override
+    public List<Fish> listFish(String username, FishDto fish, Principal principal, Pageable pageable) {
+        //TODO: check if user can download
+        return fishRepository.findByUsername(username, pageable);
     }
 
     private void validate(FishDto fishDto) {

@@ -27,4 +27,11 @@ public class UserController {
     public void registerUser(@RequestBody UserDto user){
         userService.registerUser(user);
     }
+
+    @PreAuthorize("#oauth2.hasScope('server')")
+    @RequestMapping(value = "/user/{id}", method = RequestMethod.PATCH)
+    @ResponseStatus(HttpStatus.OK)
+    public void editUser(@PathVariable String id, @RequestBody UserDto user){
+        userService.editUser(user, id);
+    }
 }

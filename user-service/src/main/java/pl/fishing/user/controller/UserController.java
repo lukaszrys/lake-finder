@@ -32,6 +32,12 @@ public class UserController {
         userService.registerUser(user);
     }
 
+    @RequestMapping(path="/user/{id}", method = RequestMethod.PATCH)
+    @ResponseStatus(HttpStatus.CREATED)
+    public void editUser(@PathVariable String id, @RequestBody UserAuthDto user){
+        userService.editUser(id, user);
+    }
+
     @RequestMapping(path="/current", method = RequestMethod.GET)
     @ResponseStatus(HttpStatus.OK)
     public User getCurrentUser(Principal principal){
@@ -42,7 +48,6 @@ public class UserController {
     @RequestMapping(path="/{userId}", method = RequestMethod.GET)
     @ResponseStatus(HttpStatus.OK)
     public void addFriend(@PathVariable String userId, Principal principal){
-
         userService.addFriend(principal, userId);
     }
 

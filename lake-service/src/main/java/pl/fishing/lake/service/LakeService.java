@@ -11,4 +11,7 @@ public interface LakeService {
     Lake getLakeNearMe(UserGeoLocationDto userGeoLocation, Principal principal);
 
     Lake getLakeNearMe(UserGeoLocationDto userGeoLocation, double radius);
+
+
+    Lake addLake(Lake lake, Principal principal);
 }

@@ -6,4 +6,5 @@ import pl.fishing.user.model.User;
 
 @Repository
 public interface UserRepository extends PagingAndSortingRepository<User, String>{
+
 }
