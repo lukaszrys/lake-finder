@@ -54,15 +54,14 @@ public class LakeServiceImpl implements LakeService {
 
     @Override
     public Lake getLakeNearMe(UserGeoLocationDto userGeoLocation, double radius) {
-        Lake lake = getLakeFromDB(userGeoLocation, converMetersToDegrees());
-        if (lake == null){
-            GoogleApiLake googleApiLake = getLakeFromGoogleMaps(userGeoLocation, radius);
-            if (googleApiLake == null || lakeRepository.findOne(googleApiLake.getId()) != null) {
-                return null;
-            }
-            return saveLake(googleApiLake);
+        GoogleApiLake googleApiLake = getLakeFromGoogleMaps(userGeoLocation, radius);
+        if (googleApiLake == null) {
+            return getLakeFromDB(userGeoLocation, converMetersToDegrees());
         }
-        return lake;
+        if (lakeRepository.findOne(googleApiLake.getId()) != null){
+            return lakeRepository.findOne(googleApiLake.getId());
+        }
+        return saveLake(googleApiLake);
     }
 
     private int converMetersToDegrees() {

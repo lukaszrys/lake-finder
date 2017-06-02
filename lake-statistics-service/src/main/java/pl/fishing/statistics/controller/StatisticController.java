@@ -6,10 +6,12 @@ import org.springframework.http.HttpStatus;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 import pl.fishing.statistics.model.Fish;
+import pl.fishing.statistics.model.FishTypeValue;
 import pl.fishing.statistics.repository.FishRepository;
 import pl.fishing.statistics.service.LakeStatisticsService;
 
 import java.util.Date;
+import java.util.List;
 
 @RestController
 public class StatisticController {
@@ -31,10 +33,10 @@ public class StatisticController {
     @PreAuthorize("#oauth2.hasScope('ui')")
     @RequestMapping(value ="/fishes/{lakeId}", method = RequestMethod.GET)
     @ResponseStatus(HttpStatus.OK)
-    public void addFish(@PathVariable String lakeId,
-                        @RequestParam(required = false) @DateTimeFormat(pattern="yyyy-MM-dd") Date from,
-                        @RequestParam(required = false) @DateTimeFormat(pattern="yyyy-MM-dd") Date to){
-        lakeStatisticsService.getStatsForLake(lakeId, from, to);
+    public List<FishTypeValue> addFish(@PathVariable String lakeId,
+                                       @RequestParam(required = false) @DateTimeFormat(pattern="yyyy-MM-dd") Date from,
+                                       @RequestParam(required = false) @DateTimeFormat(pattern="yyyy-MM-dd") Date to){
+        return lakeStatisticsService.getStatsForLake(lakeId, from, to);
     }
 
 }
