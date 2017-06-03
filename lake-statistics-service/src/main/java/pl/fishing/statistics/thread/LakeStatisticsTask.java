@@ -48,8 +48,7 @@ public class LakeStatisticsTask implements Callable<Date> {
     @Override
     public Date call() {
         Statistics newStatistics = new Statistics();
-        created = new DateTime(created).plusDays(this.daysToAdd).toDate();
-        Date newCreatedDate = new DateTime(created).plusDays(this.daysToAdd + 1).toDate();
+        Date newCreatedDate = new DateTime(created).plusDays(this.daysToAdd).toDate();
         newStatistics.setCreated(newCreatedDate);
 
         List<DBObject> allResult = getAggregationResult(newCreatedDate);

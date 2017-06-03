@@ -40,7 +40,7 @@ public class LakeStatisticsServiceImpl implements LakeStatisticsService {
         } else {
             Date created = statistics.getCreated();
             int missingStatistics = countMissingStatistics(created);
-            for (int i = 0; i < missingStatistics; i++){
+            for (int i = 1; i <= missingStatistics; i++){
                 createNewStatistics(created, i);
             }
         }

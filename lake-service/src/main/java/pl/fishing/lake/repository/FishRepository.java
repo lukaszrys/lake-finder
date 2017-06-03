@@ -10,4 +10,5 @@ public interface FishRepository extends PagingAndSortingRepository<Fish, String>
 
     List<Fish> findByUsername(String username, Pageable pageable);
 
+    Long countByUsername (String username);
 }

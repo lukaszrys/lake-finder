@@ -6,6 +6,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 import pl.fishing.lake.dto.FishDto;
+import pl.fishing.lake.dto.ListResult;
 import pl.fishing.lake.model.Fish;
 import pl.fishing.lake.model.FishType;
 import pl.fishing.lake.repository.FishTypeRepository;
@@ -36,8 +37,8 @@ public class FishController {
     @RequestMapping(value ="/fishes/{username}", method = RequestMethod.GET)
     @ResponseStatus(HttpStatus.OK)
     //TODO: wrap into LIST and COUNT
-    public List<Fish> listFish(@PathVariable String username, @RequestBody FishDto fish, Principal principal, Pageable pageable){
-        return fishService.listFish(username, fish, principal, pageable);
+    public ListResult<Fish> listFish(@PathVariable String username, Principal principal, Pageable pageable){
+        return fishService.listFish(username, principal, pageable);
     }
 
     @PreAuthorize("#oauth2.hasScope('ui')")
