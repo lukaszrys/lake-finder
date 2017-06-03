@@ -49,7 +49,7 @@ public class LakeServiceImpl implements LakeService {
     @Override
     public Lake getLakeNearMe(UserGeoLocationDto userGeoLocation, Principal principal) {
         UserDto currentUser = userService.getByUsername(principal.getName());
-        return getLakeNearMe(userGeoLocation, currentUser.getRadius().doubleValue());
+        return getLakeNearMe(userGeoLocation, currentUser.getRadius().multiply(BigDecimal.valueOf(1000L)).doubleValue());
     }
 
     @Override

@@ -39,6 +39,7 @@ public class FishTransformer implements Transformer<Fish, FishDto, FishCriteria>
             type = fishTypeService.addNewFishType(dto.getType());
         }
         entity.setType(type);
+        entity.setWeight(dto.getWeight());
     }
 
     @Override

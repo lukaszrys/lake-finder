@@ -25,7 +25,7 @@ public class LakeController {
     }
 
     @PreAuthorize("#oauth2.hasScope('ui')")
-    @RequestMapping(method = RequestMethod.PATCH)
+    @RequestMapping(method = RequestMethod.PUT)
     @ResponseStatus(HttpStatus.OK)
     //TODO: return LakeDTO
     public Lake addLake(@RequestBody Lake lake, Principal principal){

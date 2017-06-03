@@ -2,6 +2,7 @@ package pl.fishing.lake.dto;
 
 import pl.fishing.lake.model.FishType;
 
+import java.math.BigDecimal;
 import java.util.Date;
 
 public class FishDto {
@@ -11,6 +12,7 @@ public class FishDto {
     private LakeDto lake;
     private Date uploadDate;
     private String username;
+    private BigDecimal weight;
 
     public String getId() {
         return id;
@@ -50,5 +52,13 @@ public class FishDto {
 
     public void setType(FishType type) {
         this.type = type;
+    }
+
+    public BigDecimal getWeight() {
+        return weight;
+    }
+
+    public void setWeight(BigDecimal weight) {
+        this.weight = weight;
     }
 }

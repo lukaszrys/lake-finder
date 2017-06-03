@@ -12,7 +12,7 @@ public interface AuthServiceFeign {
     @ResponseStatus(HttpStatus.CREATED)
     void registerAccount(@RequestBody UserAuthDto user);
 
-    @RequestMapping(method = RequestMethod.PATCH, value = "/uaa/user/{id}", consumes = MediaType.APPLICATION_JSON_UTF8_VALUE)
+    @RequestMapping(method = RequestMethod.PUT, value = "/uaa/user/{id}", consumes = MediaType.APPLICATION_JSON_UTF8_VALUE)
     @ResponseStatus(HttpStatus.OK)
     void editAccount(@PathVariable("id") String id, @RequestBody UserAuthDto user);
 }

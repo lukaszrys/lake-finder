@@ -29,7 +29,7 @@ public class UserController {
     }
 
     @PreAuthorize("#oauth2.hasScope('server')")
-    @RequestMapping(value = "/user/{id}", method = RequestMethod.PATCH)
+    @RequestMapping(value = "/user/{id}", method = RequestMethod.PUT)
     @ResponseStatus(HttpStatus.OK)
     public void editUser(@PathVariable String id, @RequestBody UserDto user){
         userService.editUser(user, id);

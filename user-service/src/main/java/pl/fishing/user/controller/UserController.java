@@ -32,8 +32,8 @@ public class UserController {
         userService.registerUser(user);
     }
 
-    @RequestMapping(path="/user/{id}", method = RequestMethod.PATCH)
-    @ResponseStatus(HttpStatus.CREATED)
+    @RequestMapping(path="/user/{id}", method = RequestMethod.PUT) //PUT because Alamofire fires PATCH as GET, feel free to change
+    @ResponseStatus(HttpStatus.OK)
     public void editUser(@PathVariable String id, @RequestBody UserAuthDto user){
         userService.editUser(id, user);
     }
