@@ -5,7 +5,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import pl.fishing.commons.exception.ValidationException;
 import pl.fishing.lake.dto.FishDto;
-import pl.fishing.lake.dto.ListResult;
+import pl.fishing.commons.dto.ListResult;
 import pl.fishing.lake.event.FishStatisticEventPublisher;
 import pl.fishing.lake.feign.UserServiceFeign;
 import pl.fishing.lake.model.Fish;

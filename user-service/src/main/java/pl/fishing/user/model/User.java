@@ -14,7 +14,8 @@ public class User {
     private String username;
     private BigDecimal radius;
     private String email;
-    private List<User> friends = new ArrayList<>();
+
+    private List<UserFriend> friends = new ArrayList<>();
 
     @NotNull
     @Id
@@ -35,15 +36,6 @@ public class User {
         this.radius = radius;
     }
 
-    @ManyToMany
-    public List<User> getFriends() {
-        return friends;
-    }
-
-    public void setFriends(List<User> friends) {
-        this.friends = friends;
-    }
-
 
     public String getEmail() {
         return email;
@@ -51,5 +43,14 @@ public class User {
 
     public void setEmail(String email) {
         this.email = email;
+    }
+
+    @OneToMany(mappedBy = "user")
+    public List<UserFriend> getFriends() {
+        return friends;
+    }
+
+    public void setFriends(List<UserFriend> friends) {
+        this.friends = friends;
     }
 }

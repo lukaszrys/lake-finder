@@ -1,11 +1,14 @@
 package pl.fishing.user.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
+import pl.fishing.commons.dto.ListResult;
 import pl.fishing.user.dto.UserAuthDto;
 import pl.fishing.user.model.User;
+import pl.fishing.user.model.UserFriend;
 import pl.fishing.user.repository.UserRepository;
 import pl.fishing.user.service.UserService;
 
@@ -45,10 +48,18 @@ public class UserController {
     }
 
     @PreAuthorize("#oauth2.hasScope('ui')")
-    @RequestMapping(path="/{userId}", method = RequestMethod.GET)
+    @RequestMapping(path="/friends/{userId}", method = RequestMethod.POST)
     @ResponseStatus(HttpStatus.OK)
     public void addFriend(@PathVariable String userId, Principal principal){
         userService.addFriend(principal, userId);
     }
+
+    @PreAuthorize("#oauth2.hasScope('ui')")
+    @RequestMapping(path="/friends/", method = RequestMethod.POST)
+    @ResponseStatus(HttpStatus.OK)
+    public ListResult<UserFriend> addFriend(Principal principal, Pageable pageable){
+        return userService.listMyFriends(principal, pageable);
+    }
+
 
 }

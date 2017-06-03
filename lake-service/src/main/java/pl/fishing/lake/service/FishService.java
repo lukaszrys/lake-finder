@@ -3,7 +3,7 @@ package pl.fishing.lake.service;
 
 import org.springframework.data.domain.Pageable;
 import pl.fishing.lake.dto.FishDto;
-import pl.fishing.lake.dto.ListResult;
+import pl.fishing.commons.dto.ListResult;
 import pl.fishing.lake.model.Fish;
 
 import java.security.Principal;

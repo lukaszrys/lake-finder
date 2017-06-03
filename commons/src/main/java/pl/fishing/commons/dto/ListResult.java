@@ -1,4 +1,4 @@
-package pl.fishing.lake.dto;
+package pl.fishing.commons.dto;
 
 import java.util.List;
 
