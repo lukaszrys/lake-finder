@@ -7,8 +7,8 @@ import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 import pl.fishing.commons.dto.ListResult;
 import pl.fishing.user.dto.UserAuthDto;
-import pl.fishing.user.model.User;
-import pl.fishing.user.model.UserFriend;
+import pl.fishing.user.dto.UserDto;
+import pl.fishing.user.dto.UserFriendDto;
 import pl.fishing.user.repository.UserRepository;
 import pl.fishing.user.service.UserService;
 
@@ -25,8 +25,8 @@ public class UserController {
     @PreAuthorize("#oauth2.hasScope('server')")
     @RequestMapping(path="/find/{name}", method = RequestMethod.GET)
     @ResponseStatus(HttpStatus.OK)
-    public User getByUsername(@PathVariable String name){
-        return userRepository.findOne(name);
+    public UserDto getByUsername(@PathVariable String name){
+        return userService.findOne(name);
     }
 
     @RequestMapping(path="/user/register", method = RequestMethod.POST)
@@ -43,8 +43,8 @@ public class UserController {
 
     @RequestMapping(path="/current", method = RequestMethod.GET)
     @ResponseStatus(HttpStatus.OK)
-    public User getCurrentUser(Principal principal){
-        return userRepository.findOne(principal.getName());
+    public UserDto getCurrentUser(Principal principal){
+        return userService.findOne(principal.getName());
     }
 
     @PreAuthorize("#oauth2.hasScope('ui')")
@@ -55,9 +55,9 @@ public class UserController {
     }
 
     @PreAuthorize("#oauth2.hasScope('ui')")
-    @RequestMapping(path="/friends/", method = RequestMethod.POST)
+    @RequestMapping(path="/friends/", method = RequestMethod.GET)
     @ResponseStatus(HttpStatus.OK)
-    public ListResult<UserFriend> addFriend(Principal principal, Pageable pageable){
+    public ListResult<UserFriendDto> getFriends(Principal principal, Pageable pageable){
         return userService.listMyFriends(principal, pageable);
     }
 

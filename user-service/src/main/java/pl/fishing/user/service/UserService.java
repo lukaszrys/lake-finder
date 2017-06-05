@@ -3,7 +3,8 @@ package pl.fishing.user.service;
 import org.springframework.data.domain.Pageable;
 import pl.fishing.commons.dto.ListResult;
 import pl.fishing.user.dto.UserAuthDto;
-import pl.fishing.user.model.UserFriend;
+import pl.fishing.user.dto.UserDto;
+import pl.fishing.user.dto.UserFriendDto;
 
 import java.security.Principal;
 
@@ -14,5 +15,7 @@ public interface UserService {
 
     void editUser(String id, UserAuthDto user);
 
-    ListResult<UserFriend> listMyFriends(Principal principal, Pageable pageable);
+    ListResult<UserFriendDto> listMyFriends(Principal principal, Pageable pageable);
+
+    UserDto findOne(String username);
 }

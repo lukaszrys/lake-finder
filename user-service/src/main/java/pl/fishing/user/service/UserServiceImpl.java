@@ -7,6 +7,8 @@ import pl.fishing.commons.dto.ListResult;
 import pl.fishing.commons.exception.NotFoundException;
 import pl.fishing.commons.exception.ValidationException;
 import pl.fishing.user.dto.UserAuthDto;
+import pl.fishing.user.dto.UserDto;
+import pl.fishing.user.dto.UserFriendDto;
 import pl.fishing.user.exception.FriendshipAlreadyExistException;
 import pl.fishing.user.exception.UsernameNotUniqueException;
 import pl.fishing.user.feign.AuthServiceFeign;
@@ -19,6 +21,7 @@ import javax.transaction.Transactional;
 import java.security.Principal;
 import java.time.LocalDate;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 public class UserServiceImpl implements UserService{
@@ -78,9 +81,21 @@ public class UserServiceImpl implements UserService{
 
     @Override
     @Transactional
-    public ListResult<UserFriend> listMyFriends(Principal principal, Pageable pageable) {
+    public ListResult<UserFriendDto> listMyFriends(Principal principal, Pageable pageable) {
         List<UserFriend> friends = userFriendRepository.findByUser(userRepository.findOne(principal.getName()));
-        return new ListResult<>(0L, friends);
+        List<UserFriendDto> friendsDtos = friends.stream().map(f -> transformToDto(f)).collect(Collectors.toList());
+        return new ListResult<>(0L, friendsDtos);
+    }
+
+    @Override
+    @Transactional
+    public UserDto findOne(String username) {
+        User user = userRepository.findOne(username);
+        if (user == null){
+            throw new NotFoundException();
+        }
+
+        return transformToDto(user);
     }
 
     private UserFriend createUserFriend(User user, User userToAdd) {
@@ -99,4 +114,22 @@ public class UserServiceImpl implements UserService{
         user.setRadius(userDto.getRadius());
         return user;
     }
+
+    //TODO: UserFriend transformer
+    private UserFriendDto transformToDto(UserFriend entity){
+        UserFriendDto dto = new UserFriendDto();
+        dto.setCreatedDate(entity.getCreatedDate());
+        dto.setUser(transformToDto(entity.getUser()));
+        dto.setUserFriend(transformToDto(entity.getUserFriend()));
+        return dto;
+    }
+
+    private UserDto transformToDto(User entity){
+        UserDto user = new UserDto();
+        user.setUsername(entity.getUsername());
+        user.setRadius(entity.getRadius());
+        user.setEmail(entity.getEmail());
+        return user;
+    }
+
 }
