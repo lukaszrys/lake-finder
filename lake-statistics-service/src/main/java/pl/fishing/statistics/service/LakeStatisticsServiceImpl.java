@@ -6,6 +6,7 @@ import org.apache.commons.logging.LogFactory;
 import org.joda.time.DateTime;
 import org.joda.time.Days;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.data.mongodb.core.MongoTemplate;
 import org.springframework.data.mongodb.core.aggregation.Aggregation;
 import org.springframework.data.mongodb.core.aggregation.AggregationResults;
@@ -47,6 +48,7 @@ public class LakeStatisticsServiceImpl implements LakeStatisticsService {
     }
 
     @Override
+    @Cacheable("lake")
     public List<FishTypeValue> getStatsForLake(String lakeId, Date from, Date to) {
         if (from == null){
             from = getBeginingOfMonthDate(new Date());

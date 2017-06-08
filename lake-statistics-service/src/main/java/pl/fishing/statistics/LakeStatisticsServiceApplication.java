@@ -7,6 +7,7 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.autoconfigure.security.oauth2.resource.ResourceServerProperties;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
+import org.springframework.cache.annotation.EnableCaching;
 import org.springframework.cloud.client.discovery.EnableDiscoveryClient;
 import org.springframework.cloud.netflix.feign.EnableFeignClients;
 import org.springframework.cloud.security.oauth2.client.feign.OAuth2FeignRequestInterceptor;
@@ -36,6 +37,7 @@ import pl.fishing.commons.security.CloudUserInfoTokenService;
 @EnableGlobalMethodSecurity(prePostEnabled = true)
 @EnableConfigurationProperties
 @Configuration
+@EnableCaching
 public class LakeStatisticsServiceApplication extends ResourceServerConfigurerAdapter {
 
 	public static void main(String[] args) {
