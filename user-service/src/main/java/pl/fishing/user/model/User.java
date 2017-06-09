@@ -3,13 +3,14 @@ package pl.fishing.user.model;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
+import java.io.Serializable;
 import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
 
 @Entity
 @Table(name = "appuser")
-public class User {
+public class User implements Serializable{
 
     private String username;
     private BigDecimal radius;

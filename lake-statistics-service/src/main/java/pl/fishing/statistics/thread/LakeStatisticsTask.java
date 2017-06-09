@@ -32,11 +32,7 @@ public class LakeStatisticsTask implements Callable<Date> {
 
     private int daysToAdd;
 
-    private final AggregationOperation project = aggregationOperationContext -> new BasicDBObject("$project", new BasicDBObject("array", Arrays.asList("$_id.type" , "$count"))
-            .append("count", "$count"));
-    private final  AggregationOperation group = aggregationOperationContext -> new BasicDBObject("$group", new BasicDBObject("_id", new BasicDBObject("lake","$_id.lake"))
-            .append("count", new BasicDBObject("$sum", "$count"))
-            .append("types", new BasicDBObject("$addToSet", "$array")));
+
 
     public LakeStatisticsTask(Date created, int daysToAdd, StatisticsRepository statisticsRepository, MongoTemplate mongoTemplate){
         this.created = created;
@@ -59,6 +55,14 @@ public class LakeStatisticsTask implements Callable<Date> {
         statisticsRepository.save(newStatistics);
         return newCreatedDate;
     }
+
+    private final AggregationOperation project = aggregationOperationContext ->
+            new BasicDBObject("$project", new BasicDBObject("array", Arrays.asList("$_id.type" , "$count"))
+            .append("count", "$count"));
+    private final  AggregationOperation group = aggregationOperationContext ->
+            new BasicDBObject("$group", new BasicDBObject("_id", new BasicDBObject("lake","$_id.lake"))
+            .append("count", new BasicDBObject("$sum", "$count"))
+            .append("types", new BasicDBObject("$addToSet", "$array")));
 
     private List<DBObject> getAggregationResult(Date newCreatedDate) {
         Aggregation aggregation = newAggregation(

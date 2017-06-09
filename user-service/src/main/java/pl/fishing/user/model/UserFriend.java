@@ -4,11 +4,12 @@ import org.hibernate.annotations.GenericGenerator;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
+import java.io.Serializable;
 import java.time.LocalDate;
 
 @Entity
 //unique user and userFriend
-public class UserFriend {
+public class UserFriend implements Serializable {
 
     private String id;
 

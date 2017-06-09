@@ -15,3 +15,5 @@ public interface UserServiceFeign {
     @ResponseStatus(HttpStatus.OK)
     UserDto getByUsername(@PathVariable("name") String name);
 }
+
+

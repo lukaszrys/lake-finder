@@ -154,7 +154,7 @@ public class LakeServiceImpl implements LakeService {
         pg.grabPixels();
         for (int pixel: pixels) {
             Color color = new Color(pixel);
-            if (color != null && color.getRed() == 163 && color.getGreen() == 203 && color.getBlue() == 255){
+            if (color.getRed() == 163 && color.getGreen() == 203 && color.getBlue() == 255){
                 return true;
             }
         }
@@ -164,7 +164,7 @@ public class LakeServiceImpl implements LakeService {
     private Image getImageFromGoogleMaps(BigDecimal lat, BigDecimal lng) throws IOException {
         UriComponentsBuilder builder = UriComponentsBuilder.fromUriString(googleMapsStatic);
         builder.queryParam("center", lat + "," + lng);
-        builder.queryParam("zoom", 1000); //TODO: ?
+        builder.queryParam("zoom", 1000);
         builder.queryParam("size","1x1");
         builder.queryParam("maptype", "roadmap");
         builder.queryParam("sensor", "false");
